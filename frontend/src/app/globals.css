@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+/* Dark mode is toggled by a `.dark` class on <html> (see ThemeProvider). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Airbnb design tokens. Components only use these semantic names, so dark mode is a token swap. */
+:root {
+  --bg: #ffffff;
+  --surface: #ffffff; /* popovers, cards, modals */
+  --surface-soft: #f7f7f7; /* hover fills, subtle panels */
+  --ink: #222222; /* primary text */
+  --muted: #6a6a6a; /* secondary text */
+  --line: #dddddd; /* borders */
+  --line-soft: #ebebeb; /* dividers */
+  --brand: #ff385c; /* Rausch */
+  --brand-dark: #e00b41;
+  --shadow-card: 0 6px 16px rgba(0, 0, 0, 0.12);
+  --shadow-pill: 0 3px 12px rgba(0, 0, 0, 0.1);
+  color-scheme: light;
+}
+
+:root.dark {
+  --bg: #121212;
+  --surface: #1e1e1e;
+  --surface-soft: #2a2a2a;
+  --ink: #f2f2f2;
+  --muted: #a3a3a3;
+  --line: #3d3d3d;
+  --line-soft: #2e2e2e;
+  --brand: #ff4f6e;
+  --brand-dark: #ff385c;
+  --shadow-card: 0 6px 16px rgba(0, 0, 0, 0.6);
+  --shadow-pill: 0 3px 12px rgba(0, 0, 0, 0.5);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-soft: var(--surface-soft);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-brand: var(--brand);
+  --color-brand-dark: var(--brand-dark);
+  --shadow-card: var(--shadow-card);
+  --shadow-pill: var(--shadow-pill);
+  /* Airbnb Cereal is proprietary; Airbnb's own fallback stack renders very close to it. */
+  --font-sans: "Airbnb Cereal VF", Circular, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+
+/* The signature gradient used on "Reserve" / "Search" buttons. */
+.btn-brand {
+  background: linear-gradient(to right, #e61e4d 0%, #e31c5f 50%, #d70466 100%);
+  color: #fff;
+}
+.btn-brand:hover {
+  background: linear-gradient(to right, #d70466 0%, #bd1e59 100%);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+/* Skeleton shimmer for loading states. */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-soft);
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  animation: shimmer 1.4s infinite;
+}
+.dark .skeleton::after {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-toast-in {
+  animation: toast-in 0.25s ease-out;
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-modal-in {
+  animation: modal-in 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Leaflet map: keep controls on-brand and above our sticky header z-indexes. */
+.leaflet-container {
+  font-family: var(--font-sans);
+  z-index: 0;
+}
+.price-pin {
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: 9999px;
+  padding: 4px 10px;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.18);
+  white-space: nowrap;
+  transition: transform 0.15s;
+  transform: translate(-50%, -50%);
+  display: inline-block;
+}
+.price-pin:hover,
+.price-pin.active {
+  background: var(--ink);
+  color: var(--bg);
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.listing-popup .leaflet-popup-content-wrapper {
+  padding: 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.listing-popup .leaflet-popup-content {
+  margin: 0;
+}
