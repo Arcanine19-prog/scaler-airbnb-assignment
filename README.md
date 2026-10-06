@@ -6,9 +6,11 @@ A working copy of Airbnb's **Homes** marketplace. You can browse and search stay
 
 | | |
 |---|---|
-| **Live app** | _added after deployment_ |
-| **API docs (Swagger)** | _added after deployment_ — `/docs` on the backend |
+| **Live app** | https://scaler-airbnb-assignment.vercel.app |
+| **API (Render)** | https://airbnb-clone-api-ehwa.onrender.com — Swagger docs at [`/docs`](https://airbnb-clone-api-ehwa.onrender.com/docs) |
 | **Repository** | https://github.com/Arcanine19-prog/scaler-airbnb-assignment |
+
+> The API runs on Render's free tier and sleeps when idle, so the **first load can take ~30–50 seconds**. After that it's fast.
 
 ---
 
@@ -204,7 +206,7 @@ cd backend && pytest
 
 ## Deployment
 
-- **Backend → Render** (`render.yaml` Blueprint at the repo root): `rootDir: backend`, build `pip install -r requirements.txt`, start `uvicorn app.main:app --host 0.0.0.0 --port $PORT`, health check `/api/health`. Set `CORS_ORIGINS` to the Vercel URL to lock CORS down.
+- **Backend → Render** (`render.yaml` Blueprint at the repo root): `rootDir: backend`, build `pip install -r requirements.txt`, start `uvicorn app.main:app --host 0.0.0.0 --port $PORT`, health check `/api/health`. `CORS_ORIGINS` is set to the Vercel URL so only the deployed frontend can call the API from a browser.
 - **Frontend → Vercel**: root directory `frontend`, environment variable `NEXT_PUBLIC_API_URL=https://<render-service>.onrender.com`.
 
 ## Assumptions & trade-offs

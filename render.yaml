@@ -11,5 +11,6 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.7
+      # Only the deployed frontend may call the API from a browser.
       - key: CORS_ORIGINS
-        value: "*"
+        value: https://scaler-airbnb-assignment.vercel.app
